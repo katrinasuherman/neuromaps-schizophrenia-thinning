@@ -1,0 +1,1 @@
+# neuromaps-schizophrenia-thinning
