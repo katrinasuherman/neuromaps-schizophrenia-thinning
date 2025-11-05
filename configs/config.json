@@ -1,0 +1,5 @@
+{
+  "out_dir": "out",
+  "seed": 42,
+  "n_perm": 1000
+}
