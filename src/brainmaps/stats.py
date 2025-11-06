@@ -1,7 +1,7 @@
-'''
+"""
 stats.py contains utilities for computing correlations, spin-test nulls,
 and FDR correction for brain-map comparisons.
-'''
+"""
 
 import numpy as np
 import pandas as pd
@@ -21,60 +21,6 @@ def pearson_nan_safe(a, b):
     '''
     r = compare_images(a, b, metric='pearsonr', ignore_zero=True)
     return round(float(r), 6)
-
-
-# def spin_test(src_vec, tgt_vec, atlas="fsLR", density="32k", n_perm=1000, seed=42):
-#     '''
-#     Compute observed Pearson r and spin-test p-value using neuromaps.
-#     :param src_vec: 1D NumPy array for source map.
-#     :param tgt_vec: 1D NumPy array for target map.
-#     :param atlas: Surface atlas name.
-#     :param density: Surface mesh density.
-#     :param n_perm: Number of permutations.
-#     :param seed: Random seed.
-#     :return: (r_obs, p_spin, r_null_array)
-#     '''
-#     # Clean NaNs/Infs
-#     src_vec = np.asarray(src_vec, dtype=float)
-#     tgt_vec = np.asarray(tgt_vec, dtype=float)
-#     src_vec[~np.isfinite(src_vec)] = np.nan
-#     tgt_vec[~np.isfinite(tgt_vec)] = np.nan
-
-#     # Generate null maps
-#     nulls = alexander_bloch(
-#         data=src_vec,
-#         atlas=atlas,
-#         density=density,
-#         n_perm=n_perm,
-#         seed=seed
-#     )
-
-#     # Observed correlation (with ignore_zero=True)
-#     r_obs = compare_images(src_vec, tgt_vec, metric="pearsonr", ignore_zero=True)
-
-#     # Try the fast path (if compare_images supports nulls)
-#     try:
-#         r_obs2, p_val = compare_images(src_vec, tgt_vec, metric="pearsonr", nulls=nulls, ignore_zero=True)
-#         r_obs = round(float(r_obs2), 6)
-#         p_spin = round(float(p_val), 6)
-#         r_null = nulls
-#     except TypeError:
-#         # Fallback: manual computation
-#         if nulls.shape[0] == nulls.shape[1]:  # (n_vertices, n_perm)
-#             r_null = np.array([
-#                 compare_images(nulls[:, i], tgt_vec, metric="pearsonr", ignore_zero=True)
-#                 for i in range(n_perm)
-#             ])
-#         else:  # (n_perm, n_vertices)
-#             r_null = np.array([
-#                 compare_images(nulls[i, :], tgt_vec, metric="pearsonr", ignore_zero=True)
-#                 for i in range(n_perm)
-#             ])
-#         p_spin = (np.sum(np.abs(r_null) >= abs(r_obs)) + 1) / (n_perm + 1)
-#         r_obs = round(float(r_obs), 6)
-#         p_spin = round(float(p_spin), 6)
-
-#     return r_obs, p_spin, r_null.astype(float)
 
 def spin_test(src_vec, tgt_vec, atlas="fsLR", density="32k", n_perm=1000, seed=42):
     """

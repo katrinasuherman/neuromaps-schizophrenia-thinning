@@ -1,17 +1,17 @@
 # src/brainmaps/config.py
 
+"""
+config.py defines the Config class, which holds project-wide settings
+such as output directories, random seeds, and the number of permutations
+for spin tests. It also provides a method to load these parameters
+from a JSON configuration file.
+"""
+
 import json
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Optional
 
-
-'''
-config.py defines the Config class, which holds project-wide settings
-such as output directories, random seeds, and the number of permutations
-for spin tests. It also provides a method to load these parameters
-from a JSON configuration file.
-'''
 
 @dataclass
 class Config:

@@ -1,3 +1,10 @@
+"""
+plotting.py provides high-level helpers to visualize cortical surface maps
+as clean, side-by-side **lateral** views (one panel per hemisphere) using
+Nilearn/Matplotlib. 
+"""
+
+
 from matplotlib import pyplot as plt
 from matplotlib.cm import ScalarMappable
 import matplotlib.colors as mcolors

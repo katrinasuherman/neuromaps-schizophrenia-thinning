@@ -1,6 +1,20 @@
+'''
+catalog.py defines the configuration catalog for this Neuromaps analysis pipeline.
+
+It centralizes:
+- Plotting parameter presets for each brain map (colormaps, vmin/vmax, titles, etc.)
+- Data source specifications for fetching reference maps via neuromaps.datasets
+- Utility functions to standardize how plotting parameters are retrieved per map
+
+This file ensures consistent visual and analytical parameters across all maps
+and provides a single source of truth for which brain annotations are used
+throughout the workflow.
+'''
+
+
 from neuromaps.datasets import fetch_annotation
 
-
+# Default plotting parameters applied to all brain maps unless overridden.
 PLOT_DEFAULTS = {
     "template": "fsLR",
     "density": "32k",
@@ -9,6 +23,9 @@ PLOT_DEFAULTS = {
     "wspace": 0.18,
 }
 
+# Per-map plotting specifications: overrides for color scale, colormap, etc.
+# Keys match map identifiers used in pipeline and visualization.
+# Maps ending with `_fsLR32k` indicate *transformed* versions.
 PLOT_SPECS = {
     # genepc1
     "genepc1":               {"cmap": "magma", "title": "PC1 fsaverage 10k", "template": "fsaverage", "density": "10k"},
@@ -58,10 +75,10 @@ PLOT_SPECS = {
 }
 
 def get_plot_kwargs(name: str) -> dict:
-    """
+    '''
     Merge defaults with per-map overrides.
     Tries exact match, then common suffix/prefix variants.
-    """
+    '''
     out = dict(PLOT_DEFAULTS)
     spec = PLOT_SPECS.get(name)
 
@@ -80,10 +97,27 @@ def get_plot_kwargs(name: str) -> dict:
     return out
 
 def get_source():
+    '''
+    Fetch the primary reference ("source") brain map.
+
+    :returns: nib.gifti.GiftiImage or tuple
+              The cortical thickness map from the HCP S1200 dataset
+              in fsLR-32k surface space (both hemispheres).
+    '''
     # hcps1200 thickness fsLR-32k
     return fetch_annotation(source="hcps1200", desc="thickness", space="fsLR", den="32k")
 
 def get_targets():
+    '''
+    Define all target maps to be compared against the source map.
+
+    Each target is represented as a dictionary of parameters that can be passed
+    directly to `neuromaps.datasets.fetch_annotation`.
+
+    :returns: dict
+              Mapping of target names to metadata dictionaries describing their source,
+              description, space, and density.
+    '''
     return dict(
         genepc1 = dict(source="abagen", desc="genepc1",  space="fsaverage", den="10k"),
         myelin  = dict(source="hcps1200", desc="myelinmap", space="fsLR", den="32k"),

@@ -35,7 +35,6 @@ def _ensure_outdir(cfg: Config) -> Path:
     out.mkdir(parents=True, exist_ok=True)
     return out
 
-
 def step_env(cfg: Config):
     '''
     Optional environment checks (e.g., Connectome Workbench presence).
@@ -97,7 +96,6 @@ def step_transforms(cfg: Config):
 
     return out
 
-
 def _vectors_from_maps(maps_dict: dict) -> tuple[str, np.ndarray, dict]:
     '''
     Build concatenated LH||RH vectors for source and targets.
@@ -125,7 +123,6 @@ def _vectors_from_maps(maps_dict: dict) -> tuple[str, np.ndarray, dict]:
         vectors[name] = vec
 
     return src_name, src_vec, vectors
-
 
 def step_stats(cfg: Config, maps_dict: dict) -> pd.DataFrame:
     '''
@@ -163,7 +160,6 @@ def step_stats(cfg: Config, maps_dict: dict) -> pd.DataFrame:
     print(f"[stats] wrote {outdir/'correlations.csv'}")
     print(f"[stats] wrote nulls to {null_dir}")
     return df
-
 
 def step_fdr(cfg: Config, df_stats: pd.DataFrame) -> pd.DataFrame:
     '''
