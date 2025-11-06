@@ -1,6 +1,6 @@
 # Accounting for Spatial Autocorrelation in Brain Maps using Neuromaps
 
-This repository reproduces the analytic workflow of Figure 4a from [Markello & Mišić (2021)](https://www.nature.com/articles/s41592-022-01625-w) using the Neuromaps Python library.
+This repository reproduces the analytic workflow of Figure 4a from [Markello et al. (2022)](https://www.nature.com/articles/s41592-022-01625-w) using the [Neuromaps](https://netneurolab.github.io/neuromaps/usage.html) Python library.
 It compares a cortical‐thickness map obtained from Human Connectome Project (HCP) S1200 release to multiple structural / functional / genetic brain maps by transforming surfaces, correlating them, applying spatial spin tests, correcting via FDR, and generating both surface figures and null-distribution boxplots.
 
 ![Boxplot summary](out/figs/boxplots.png)
@@ -92,4 +92,4 @@ You can delete old outputs anytime:
 - `correlations_fdr.csv` additionally provides p_fdr values for FDR-controlled significance.
 
 ## Citation
-_Markello, R. D., & Mišić, B. (2021). Comparing spatially resolved brain maps using the neuromaps toolbox. Nature Communications, 12(1), 1–13._
+_Markello, R. D., Hansen, J. Y., Liu, Z.-Q., Bazinet, V., Shafiei, G., … Misic, B. (2022). neuromaps: structural and functional interpretation of brain maps. Nature Methods, 19(11), 1472–1479. https://doi.org/10.1038/s41592-022-01625-w_
