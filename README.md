@@ -1,5 +1,10 @@
 # Accounting for Spatial Autocorrelation in Brain Maps using Neuromaps
 
+Made by:
+- Rheka Narwastu, in charge with code organization for reproducibility, correlation and spin-test analysis, and multiple testing corrections.
+- Paige Pagaduan
+- Katrina Suherman
+
 This repository reproduces the analytic workflow of Figure 4a from [Markello et al. (2022)](https://www.nature.com/articles/s41592-022-01625-w) using the [Neuromaps](https://netneurolab.github.io/neuromaps/usage.html) Python library.
 It compares a cortical‐thickness map obtained from Human Connectome Project (HCP) S1200 release to multiple structural / functional / genetic brain maps by transforming surfaces, correlating them, applying spatial spin tests, correcting via FDR, and generating both surface figures and null-distribution boxplots.
 
@@ -15,6 +20,7 @@ Main files and purpose:
 - `run.py` — main command-line script
 - `configs/config.json` — global parameters (`seed`, `n_perm`, `out_dir`)
 - `requirements.txt` — Python dependencies
+- `Dockerfile` - a docker file
 
 Core modules `(src/brainmaps/)`:
 - `config.py` — loads configuration settings
@@ -49,10 +55,29 @@ wb_command -version
 If this command prints a version number (e.g., `wb_command v1.5.0`), the Workbench is correctly installed and in your system PATH.
 
 
-## Setup
+## Run with Docker
+- Pull the container from GitHub Container Registry:
+```
+docker pull ghcr.io/rhekacitra/neuromaps-schizophrenia-thinning-image:latest
+```
+- Run an interactive container:
+```
+docker run -it --rm ghcr.io/rhekacitra/neuromaps-schizophrenia-thinning-image:latest bash
+```
+- Inside the container, run the result:
+```
+python run.py stats
+python run.py results
+```
+- To export figures from the container by creating new terminal:
+```
+docker cp <container_id>:/app/out/figs/ .
+```
+
+## If Not Using Docker
 ### Clone and enter
 ```
-1. git clone https://github.com/<yourname>/neuromaps-schizophrenia-thinning.git
+1. git clone https://github.com/katrinasuherman/neuromaps-schizophrenia-thinning.git
 2. cd neuromaps-schizophrenia-thinning
 ```
 
@@ -76,7 +101,7 @@ Edit `configs/config.json`:
 | ------------------------- | -------------------------- | --------------------------------------------------- |
 | Environment check         | `python run.py env`        | Verify neuromaps + Workbench availability           |
 | Transform maps            | `python run.py transforms` | Fetch & transform all target maps                   |
-| Correlations + spin tests | `python run.py stats`      | Saves `correlations.csv` and 1-D nulls              |
+| Correlations + spin tests | `python run.py stats`      | Saves `correlations.csv` and `correlations_fdr.csv`              |
 | FDR correction            | `python run.py fdr`        | Adds `p_fdr` column                                 |
 | Surface plots             | `python run.py viz`        | Generates per-map figures                           |
 | Boxplot                   | `python run.py results`    | Creates `figs/boxplots.png` using *p_spin*          |
@@ -85,11 +110,15 @@ Edit `configs/config.json`:
 You can delete old outputs anytime:
 `rm -rf out/`
 
+
 ## Interpretation
 - Red dots in `boxplots.png` = maps where `p_spin < 0.05` (significant correlation).
-- Gray boxes = null distributions from spatial permutations.
+- Beige dots in `boxplots.png` = empirical correlations that are not significant under the spin-test (p<sub>spin</sub> ≥ 0.05).
+- Gray boxplots = the null distribution of correlations generated from spatial permutations; these reflect how much correlation could appear by chance due to spatial alignment, rather than a true relationship.
+- Shaded gray rectangles = located behind some categories that illustrates the range of effect sizes reported in past work for that measure (when available), providing a reference for comparison.
+- Gray diamonds = published effect sizes for specific maps based on prior studies.
+- Gray “x” markers = maps where past literature reports no meaningful correlation (i.e., r ≈ 0).
 - `correlations.csv` lists Pearson r and p_spin per target map.
-- `correlations_fdr.csv` additionally provides p_fdr values for FDR-controlled significance.
 
 ## Citation
 _Markello, R. D., Hansen, J. Y., Liu, Z.-Q., Bazinet, V., Shafiei, G., … Misic, B. (2022). neuromaps: structural and functional interpretation of brain maps. Nature Methods, 19(11), 1472–1479. https://doi.org/10.1038/s41592-022-01625-w_
