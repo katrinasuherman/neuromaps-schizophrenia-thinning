@@ -2,7 +2,7 @@
 
 Made by:
 - Rheka Narwastu, in charge with code organization for reproducibility, correlation and spin-test analysis, and multiple testing corrections.
-- Paige Pagaduan
+- Paige Pagaduan, in charge of development of figures, and practice with other spatial null distribution methods and parcellation.
 - Katrina Suherman
 
 This repository reproduces the analytic workflow of Figure 4a from [Markello et al. (2022)](https://www.nature.com/articles/s41592-022-01625-w) using the [Neuromaps](https://netneurolab.github.io/neuromaps/usage.html) Python library.
