@@ -72,9 +72,6 @@ docker run -it --rm ghcr.io/rhekacitra/neuromaps-schizophrenia-thinning-image:la
 ```
 - Inside the container, run the results or run individual pipelines from the table below:
 ```
-python run.py stats
-```
-```
 python run.py results
 ```
 - To export figures from the container by creating new terminal:
