@@ -52,14 +52,12 @@ All results are saved in the `out/ folder`:
 - To effectively use neuromaps, you must have the Connectome Workbench installed and accessible on your system.
 Many of neuromaps’ core functions depend on Workbench utilities such as `wb_command`.
 
-Follow the official installation guide here: [Connectome Workbench Installation Instructions](https://www.humanconnectome.org/software/connectome-workbench)
+More on the official installation guide here: [Connectome Workbench Installation Instructions](https://www.humanconnectome.org/software/connectome-workbench)
 
-After installation, verify that it’s available from your terminal:
+Verify if Connectome Workbench is available from your terminal:
 ```
 wb_command -version
 ```
-If this command prints a version number (e.g., `wb_command v1.5.0`), the Workbench is correctly installed and in your system PATH.
-
 
 ## Run with Docker
 - Pull the container from GitHub Container Registry:
@@ -76,7 +74,7 @@ python run.py results
 ```
 - To export figures from the container by creating new terminal:
 ```
-docker cp <container_id>:/app/out/ .
+docker cp <container_id>:/app/out/figs .
 ```
 
 ## If Not Using Docker
