@@ -54,23 +54,27 @@ PLOT_SPECS = {
     "cbf":                   {"cmap": "nipy_spectral", "vmin": 4600, "vmax": 7000, "title": "Cerebral blood flow fsLR 164k", "template": "fsLR", "density": "164k"},
     "cbf_fsLR32k":           {"cmap": "nipy_spectral", "vmin": 4600, "vmax": 7000, "title": "Cerebral blood flow fsLR 32k", "template": "fsLR", "density": "32k"},
 
+    # cerebral blood volume
     "cbv":                   {"cmap": "nipy_spectral", "vmin": 0, "vmax": 26000, "title": "Cerebral blood volume fsLR 164k", "template": "fsLR", "density": "164k"},
     "cbv_fsLR32k":           {"cmap": "nipy_spectral", "vmin": 2100, "vmax": 13000, "title": "Cerebral blood volume fsLR 32k", "template": "fsLR", "density": "32k"},
 
+    # oxygen metabolism
     "cmro2":                 {"cmap": "nipy_spectral", "vmin": 4000, "vmax": 7500, "title": "Oxygen metabolism fsLR 164k", "density": "164k"},
     "cmro2_fsLR32k":         {"cmap": "nipy_spectral", "vmin": 4000, "vmax": 7500, "title": "Oxygen metabolism fsLR 32k", "template": "fsLR", "density": "32k"},
 
+    # glucose metabolism
     "cmrglc":                {"cmap": "nipy_spectral", "vmin": 360, "vmax": 8500, "title": "Glucose metabolism fsLR 164k", "density": "164k"},
     "cmrglc_fsLR32k":        {"cmap": "nipy_spectral", "vmin": 360, "vmax": 8500, "title": "Glucose metabolism fsLR 32k", "template": "fsLR", "density": "32k"},
 
-    # allometric scaling?
+    # allometric scaling (nih)
     "scalingnih":            {"cmap": "seismic", "vmin": 0.45, "vmax": 1.6, "title": "Allometric scaling (NIH) civet 41k", "template": "civet", "density": "41k"},
     "scalingnih_fsLR32k":    {"cmap": "seismic", "vmin": 0.0,  "vmax": 1.6, "title": "Allometric scaling (NIH) fsLR 32k", "template": "fsLR", "density": "32k"},
 
+    # allometric scaling (pnc)
     "scalingpnc":            {"cmap": "seismic", "vmin": 0.4, "vmax": 1.7, "title": "Allometric scaling (PNC) civet 41k", "template": "civet", "density": "41k"},
     "scalingpnc_fsLR32k":    {"cmap": "seismic", "vmin": 0.0, "vmax": 1.7, "title": "Allometric scaling (PNC) fsLR 32k", "template": "fsLR", "density": "32k"},
 
-    # source
+    # source thickness
     "source_thickness":      {"title": "Source map"},
 }
 

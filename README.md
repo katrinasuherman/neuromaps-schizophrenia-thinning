@@ -20,7 +20,7 @@ Main files and purpose:
 - `run.py` — main command-line script
 - `configs/config.json` — global parameters (`seed`, `n_perm`, `out_dir`)
 - `requirements.txt` — Python dependencies
-- `Dockerfile` - a docker file
+- `Dockerfile` — the docker file
 
 Core modules `(src/brainmaps/)`:
 - `config.py` — loads configuration settings
@@ -30,8 +30,14 @@ Core modules `(src/brainmaps/)`:
 - `transforms.py` — converts brain maps between coordinate systems
 - `stats.py` — computes correlations, spin tests, and FDR
 - `plotting.py` — handles surface visualization
+- `boxplot.py` — generates the boxplot
 - `pipeline.py` — connects all processing steps
 
+## Configuration
+Edit `configs/config.json`:
+- `out_dir` – output directory
+- `seed` – random seed for reproducibility
+- `n_perm` – number of spin-test permutations
 
 ## Output Structure
 All results are saved in the `out/ folder`:
@@ -64,9 +70,11 @@ docker pull ghcr.io/rhekacitra/neuromaps-schizophrenia-thinning-image:latest
 ```
 docker run -it --rm ghcr.io/rhekacitra/neuromaps-schizophrenia-thinning-image:latest bash
 ```
-- Inside the container, run the result:
+- Inside the container, run the results or run individual pipelines from the table below:
 ```
 python run.py stats
+```
+```
 python run.py results
 ```
 - To export figures from the container by creating new terminal:
@@ -77,24 +85,22 @@ docker cp <container_id>:/app/out/figs/ .
 ## If Not Using Docker
 ### Clone and enter
 ```
-1. git clone https://github.com/katrinasuherman/neuromaps-schizophrenia-thinning.git
-2. cd neuromaps-schizophrenia-thinning
+git clone https://github.com/katrinasuherman/neuromaps-schizophrenia-thinning.git
+```
+```
+cd neuromaps-schizophrenia-thinning
 ```
 
 ### Create virtualenv
 ```
-3. python3 -m venv .venv
-4. source .venv/bin/activate
-5. pip install -r requirements.txt
+python3 -m venv .venv
 ```
-
-On macOS, install Connectome Workbench and ensure `/Applications/Workbench/bin_macosx64` is in your PATH.
-
-## Configuration
-Edit `configs/config.json`:
-- `out_dir` – output directory
-- `seed` – random seed for reproducibility
-- `n_perm` – number of spin-test permutations
+```
+source .venv/bin/activate
+```
+```
+pip install -r requirements.txt
+```
 
 ## Run the Pipeline
 | Step                      | Command                    | Description                                         |
@@ -106,9 +112,6 @@ Edit `configs/config.json`:
 | Surface plots             | `python run.py viz`        | Generates per-map figures                           |
 | Boxplot                   | `python run.py results`    | Creates `figs/boxplots.png` using *p_spin*          |
 | Full pipeline             | `python run.py all`        | Runs env → transforms → stats → fdr → viz → results |
-
-You can delete old outputs anytime:
-`rm -rf out/`
 
 
 ## Interpretation

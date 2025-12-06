@@ -124,43 +124,6 @@ def _vectors_from_maps(maps_dict: dict) -> tuple[str, np.ndarray, dict]:
 
     return src_name, src_vec, vectors
 
-# def step_stats(cfg: Config, maps_dict: dict) -> pd.DataFrame:
-#     '''
-#     Compute observed Pearson r (via compare_images) and spin-test p-values
-#     for each target against the source; write CSV to out/correlations.csv.
-
-#     :param cfg: Config object (uses n_perm and seed).
-#     :param maps_dict: dict produced by step_transforms().
-#     :return: Pandas DataFrame with columns ['map', 'r', 'p_spin'] sorted by p_spin.
-#     '''
-#     outdir = _ensure_outdir(cfg)
-#     null_dir = outdir / "nulls"
-#     null_dir.mkdir(parents=True, exist_ok=True)
-#     src_name, src_vec, vectors = _vectors_from_maps(maps_dict)
-
-#     rows = []
-#     for name, tgt_vec in vectors.items():
-#         # observed r and spin-test
-#         r_obs, p_spin, r_null = stats.spin_test(
-#             src_vec, tgt_vec,
-#             atlas="fsLR", density="32k",
-#             n_perm=cfg.n_perm, seed=cfg.seed
-#         )
-#         rows.append({"map": name, "r": float(r_obs), "p_spin": float(p_spin)})
-
-#         if r_null.ndim != 1:
-#             print(f"[stats] converting raw spins to r_null for {name} from shape {r_null.shape}")
-#             r_null = stats.nulls_to_corrs(r_null, tgt_vec)
-
-#         # save null correlations for the boxplot
-#         np.save(null_dir / f"{name}.npy", np.asarray(r_null, float).reshape(-1))
-
-#     df = pd.DataFrame(rows).sort_values("p_spin")
-#     (outdir / "correlations.csv").write_text(df.to_csv(index=False))
-#     print(f"[stats] wrote {outdir/'correlations.csv'}")
-#     print(f"[stats] wrote nulls to {null_dir}")
-#     return df
-
 def step_stats(cfg: Config, maps_dict: dict) -> pd.DataFrame:
     '''
     Compute observed Pearson r (via compare_images) and spin-test p-values
@@ -323,29 +286,6 @@ def step_viz(cfg: Config, maps_dict: dict, *, save_png=True):
                 plt.close(fig)
                 print(f"[viz] wrote {fp}")
 
-# def step_result(cfg: Config, use_fdr: bool = True):
-#     """
-#     Generate the summary boxplot of null distributions vs. empirical correlations.
-#     """
-#     outdir = Path(cfg.out_dir)
-#     figdir = outdir / "figs"
-#     figdir.mkdir(parents=True, exist_ok=True)
-
-#     df = boxplot.load_df(out_dir=cfg.out_dir, use_fdr=use_fdr)
-#     nulls = boxplot.load_nulls(out_dir=cfg.out_dir, maps=df["map"])
-#     boxplot.boxplot_nulls_vs_empirical(
-#         df, nulls, outpath=Path(cfg.out_dir) / "figs" / "boxplots.png"
-#     )
-
-#     # --- save correlations.csv NEXT TO boxplots ---
-#     csv_path = figdir / "correlations.csv"
-#     df.to_csv(csv_path, index=False)
-
-#     print(f"[results] wrote {csv_path}")
-#     print(f"[results] wrote {figdir / 'boxplots.png'}")
-
-#     return df
-
 def step_result(cfg: Config, use_fdr: bool = True):
     """
     Generate the summary boxplot of null distributions vs. empirical correlations,
@@ -364,7 +304,7 @@ def step_result(cfg: Config, use_fdr: bool = True):
         df, nulls, outpath=figdir / "boxplots.png"
     )
 
-    # copy the correlations.csv into figs/ ---
+    # copy the correlations.csv into figs/
     raw_csv = outdir / "correlations.csv"
     if raw_csv.exists():
         raw_df = pd.read_csv(raw_csv)
