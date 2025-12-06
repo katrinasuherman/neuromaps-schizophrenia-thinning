@@ -76,7 +76,7 @@ python run.py results
 ```
 - To export figures from the container by creating new terminal:
 ```
-docker cp <container_id>:/app/out/figs/ .
+docker cp <container_id>:/app/out/ .
 ```
 
 ## If Not Using Docker
